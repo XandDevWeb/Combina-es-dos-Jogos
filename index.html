@@ -4,91 +4,25 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="css/style.css">
+
     <title>Combinação para Jogos</title>
 
-    <style>
-      body{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-      }
-      ul{
-        margin: 0;
-        padding: 0;
-        margin-top: 15px;
-        list-style-type: none;
-      }
-      li{
-        padding: 5px;
-        text-align: center;
-      }
-    </style>
 </head>
 <body>
     <form name="get-dozens-form">
         <label for="dozens-input">Dezenas: </label>
         <input type="text" id="dozens-input" placeholder="Separe as dezenas com vírgula.">
+        
+        <label for="bet-length">Tamanho da aposta: </label>
+        <input type="number" id="bet-length" placeholder="Quantas dezenas na aposta?">
+
         <button type="submit">Combinar</button>
     </form>
 
     <ul id="htmlBets"></ul>
 
-    <script>
-        const getDozensForm = document.querySelector('[name="get-dozens-form"]')
-        const dozensInput = document.querySelector('[id="dozens-input"]')
-
-        const showBets = bets => {
-          const ulElement = document.querySelector('[id="htmlBets"]')
-
-          const lis = bets.reduce(
-            (marcation, bet) => marcation += `<li>${bet.join(" . ")}</li>`,
-            "<li>Principais combinações possíveis</li>"
-          )
-
-          ulElement.innerHTML = lis
-        }
-
-        getDozensForm.addEventListener("submit", event => {
-            // Evento de submissão do formulário interrompido para
-            // que a página não recarregue.
-            event.preventDefault()
-            
-            //Obter o array de dezenas
-            const dozensArrayInput = dozensInput.value
-                .split(",")
-                .map(item => Number(item))
-
-            // Se foi digitado 0 ou não foi separado por vírgula
-            // pelo menos um valor será nulo e, portanto, o programa
-            // deve notificar e parar.
-
-            // O programa deve substituir os dois excedentes pelo ultimo número.
-            const betLength = 6                                         //Número de dezenas usadas na aposta
-            const dozensArrayInputLength = dozensArrayInput.length      //Número de dezenas fornecidas 
-            const overrunDozens = dozensArrayInput.slice(betLength)     //Dezenas excedentes
-            const dozensArray = dozensArrayInput.slice(0, betLength)    //Dezenas usadas na aposta
-
-            const bets = new Array()
-
-            bets.push(dozensArray)
-            
-            //Contagem regressiva das posições a mudar 1 a 1.
-            for (let p = betLength-1 ; p >= 0 ; p--) {
-
-                //Muda a dezena existente com as excedentes.
-                for( let i = 0 ; i < overrunDozens.length ; i++ ) {
-                    //A aposta original tem as dezenas trocadas por as excedentes aqui.
-                    const bet = Array.from(dozensArray)
-                    bet[p] = overrunDozens[i]
-
-                    //A alteração é posta no Array de apostas.
-                    bets.push( bet )
-                }
-            }
-            showBets(bets)
-        })
-    </script>
+    <script src="js/app.js"></script>
 </body>
 </html>
